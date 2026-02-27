@@ -1,11 +1,11 @@
 import flet as ft
 import asyncio
-import subprocess
 import os
 import sys
 from dataclasses import dataclass
 sys.path.append(os.path.dirname(__file__))
 from convert_process import convert_to_fbx
+from trial_manager import trial_set, get_expired
 
 @ft.observable
 @dataclass
@@ -50,12 +50,43 @@ def FilePicker():
         
 @ft.component
 def App():
+    page = ft.context.page
     progress_ring, set_progress_ring = ft.use_state(False)
     status_icon, set_status_icon = ft.use_state("idle")
     status_text, set_status_text = ft.use_state("")
     status_color, set_status_color = ft.use_state("")
     run_button_disable, set_run_button_disable = ft.use_state(False)
     global_context = ft.use_context(GlobalContext)
+
+    unlimit, set_unlimit = ft.use_state(True)
+    button_disable, set_button_disable = ft.use_state(False)
+    expired, delta = get_expired("Software\\CatelliteV2F")
+
+    if expired == "unlimit":
+        set_unlimit(True)
+    
+    def expired_process():
+        set_button_disable(True)
+
+        async def close(e):
+            await page.window.close()
+        
+        page.show_dialog(
+            ft.AlertDialog(
+                title=ft.Text("期限切れ"),
+                content=ft.Text("トライアル期間が終了しています。\nツールを使い続ける場合は[宵猫堂]より\n制限解除装置を購入いただくか\nCatelliteActivatorをご購入ください"),
+                actions=[
+                    ft.TextButton(
+                        "閉じる",
+                        on_click=close,
+                        icon=ft.Icons.CLOSE
+                    )
+                ]
+            )
+        )
+    
+    if int(delta) <= 0:
+        expired_process()
 
     async def run_convert(e):
         set_run_button_disable(True)
@@ -92,12 +123,18 @@ def App():
                 ft.Icon(icon=ft.Icons.CHECK_CIRCLE if status_icon == "success" else ft.Icons.CANCEL, color=ft.Colors.GREEN if status_icon == "success" else ft.Colors.RED, visible=False if status_icon == "progress" or status_icon == "idle" else True)
             ]),
             ft.Text(status_text, color=status_color if status_icon != "success" else "green")
-        ])
+        ]),
+        ft.Column([
+            ft.Text(f"有効期限 : {expired} まで", visible=unlimit),
+            ft.Text(f"残り : {delta} 日", visible=unlimit)
+        ], alignment=ft.MainAxisAlignment.END)
     ])
 
 
 
 def main(page: ft.Page):
+    trial_set("Software\\CatelliteV2F")
+    
     page.title = "Catellite V2F"
     page.window.width = 500
     page.window.height = 400

@@ -10,6 +10,7 @@ authors = [
 dependencies = [
     "asyncio>=4.0.0",
     "bpy>=5.0.1",
+    "cryptography>=46.0.5",
     "fake-bpy-module-5-0>=20260128",
     "flet>=0.80.5",
     "imageio>=2.37.2",

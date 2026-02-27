@@ -13,6 +13,8 @@ dependencies = [
     "cryptography>=46.0.5",
     "fake-bpy-module-5-0>=20260128",
     "flet>=0.80.5",
+    "flet-cli>=0.81.0",
+    "flet-desktop>=0.81.0",
     "imageio>=2.37.2",
     "pillow>=12.1.1",
 ]

@@ -59,14 +59,13 @@ def App():
     global_context = ft.use_context(GlobalContext)
 
     unlimit, set_unlimit = ft.use_state(True)
-    button_disable, set_button_disable = ft.use_state(False)
     expired, delta = get_expired("Software\\CatelliteV2F")
 
     if expired == "unlimit":
         set_unlimit(True)
     
     def expired_process():
-        set_button_disable(True)
+        set_run_button_disable(True)
 
         async def close(e):
             await page.window.close()
@@ -134,7 +133,7 @@ def App():
 
 def main(page: ft.Page):
     trial_set("Software\\CatelliteV2F")
-    
+
     page.title = "Catellite V2F"
     page.window.width = 500
     page.window.height = 400

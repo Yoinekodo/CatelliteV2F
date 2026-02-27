@@ -1,0 +1,33 @@
+[project]
+name = "vrm2fbx"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Flet developer", email = "you@example.com" }
+]
+dependencies = [
+    "asyncio>=4.0.0",
+    "bpy>=5.0.1",
+    "fake-bpy-module-5-0>=20260128",
+    "flet>=0.80.5",
+    "imageio>=2.37.2",
+    "pillow>=12.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "flet-cli>=0.80.5",
+    "flet-desktop>=0.80.5",
+    "flet-web>=0.80.5",
+]
+
+[tool.flet]
+org = "com.mycompany"
+product = "vrm2fbx"
+company = "Flet"
+copyright = "Copyright (C) 2023-2026 by Flet"
+
+[tool.flet.app]
+path = "src"

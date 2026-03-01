@@ -55,7 +55,7 @@ def get_expired(path):
         winreg.CloseKey(key)
 
         if unlimit is not None:
-            return "unlimit", ""
+            return "unlimit", 0
     except FileNotFoundError:
         pass
 

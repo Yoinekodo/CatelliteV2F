@@ -62,7 +62,7 @@ def App():
     expired, delta = get_expired("Software\\CatelliteV2F")
 
     if expired == "unlimit":
-        set_unlimit(True)
+        set_unlimit(False)
     
     def expired_process():
         set_run_button_disable(True)
@@ -84,7 +84,7 @@ def App():
             )
         )
     
-    if int(delta) <= 0:
+    if int(delta) <= 0 and expired != "unlimit":
         expired_process()
 
     async def run_convert(e):

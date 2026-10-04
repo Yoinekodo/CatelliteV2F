@@ -1,0 +1,16 @@
+/* Application icon, as a linkable object.
+ *
+ * Nim's `--win32icon` would do this in one step, but it is not accepted in
+ * `config.nims` (only a small subset of options is allowed there) and the nimble
+ * file cannot pass it through either - so `nimble build` would silently produce
+ * an exe with no icon. Compiling this to `icon.res` and linking it with
+ * `--passL`, which *is* allowed in `config.nims`, works for both build paths.
+ *
+ * Regenerate after changing icon.ico:
+ *     tools\build_icon.ps1
+ * or just `nimble build`, which does it for you via the hook in the .nimble file.
+ *
+ * The id here is what src/appicon.nim loads at runtime with MAKEINTRESOURCE, so
+ * the two have to agree.
+ */
+1 ICON "icon.ico"
